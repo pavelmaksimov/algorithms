@@ -1,17 +1,14 @@
 ```python
 class Solution:
     def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
-
-        dummy = ListNode(next=head)
-
         fast = head
-        slow = dummy
+        slow = head
 
         while fast and fast.next:
             fast = fast.next.next
             slow = slow.next
 
-        return slow.next
+        return slow
 
 ```
 
