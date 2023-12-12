@@ -102,3 +102,112 @@ Time Limit Exceeded
 
 Проблема в том, что в зацикленных списках, этот алгоритм считает бесконечно.
 ```
+
+```python
+
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        """
+        Do not return anything, modify head in-place instead.
+        """
+        dummy = ListNode(next=head)
+        fast = dummy
+        slow = dummy
+
+        while fast and fast.next and fast.next.next:
+            slow = slow.next
+            fast = fast.next.next
+        
+        middle = slow.next
+        current = middle
+        slow.next = None
+        prev = None
+
+        while current:
+            next = current.next
+            current.next = prev
+            prev = current
+            current = next
+        
+        head2 = prev
+        
+        l = head
+        r = head2
+
+        while l:
+            l_next = l.next
+            r_next = r.next if r else None
+            l.next = r
+            if r:
+                r.next = next
+            l = l_next
+            r = r_next
+        
+        return head
+Input
+head =
+[1,2,3,4]
+Output
+[1,4]
+Expected
+[1,4,2,3]
+
+head2 стоит на неверном узле, стоит на конце второй половины списка
+```
+
+```python
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        """
+        Do not return anything, modify head in-place instead.
+        """
+        dummy = ListNode(next=head)
+        fast = dummy
+        slow = dummy
+
+        while fast and fast.next and fast.next.next:
+            slow = slow.next
+            fast = fast.next.next
+        
+        middle = slow.next
+        current = middle
+        slow.next = None
+        prev = None
+
+        while current:
+            next = current.next
+            current.next = prev
+            prev = current
+            current = next
+        
+        head2 = middle
+        
+        l = head
+        r = head2
+
+        while l:
+            l_next = l.next
+            r_next = r.next if r else None
+            l.next = r
+            if r:
+                r.next = next
+            l = l_next
+            r = r_next
+        
+        return head
+Input
+head =
+[1,2,3,4]
+Output
+[1,3]
+Expected
+[1,4,2,3]
+
+Неправильно на 3 этапе соединял узлы.
+```
