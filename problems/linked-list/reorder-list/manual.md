@@ -7,24 +7,26 @@ class Solution:
         Do not return anything, modify head in-place instead.
         """
         h = head
-        prev = None # ListNode(next=head)
+        prev = None
         current = head
 
-        while head and head.next:
+        while current.next:
             while current:
                 next = current.next
                 current.next = prev
                 prev = current
+                
+                if prev.next == head:
+                    prev.next = None
+                
                 current = next
 
             head.next = prev
             head = prev
             current = prev
-            prev.next = None
             prev = None
 
         return h
-
 ```
 
 Оценка по скорости

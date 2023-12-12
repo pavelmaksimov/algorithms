@@ -70,3 +70,35 @@ Output
 Expected
 [1,5,2,4,3]
 ```
+
+```python
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        """
+        Do not return anything, modify head in-place instead.
+        """
+        h = head
+        prev = None
+        current = head
+
+        while current.next:
+            while current:
+                next = current.next
+                current.next = prev
+                prev = current
+                
+                if prev.next == head:
+                    prev.next = None
+                
+                current = next
+
+            head.next = prev
+            head = prev
+            current = prev
+            prev = None
+
+        return h
+Time Limit Exceeded    
+
+Проблема в том, что в зацикленных списках, этот алгоритм считает бесконечно.
+```
