@@ -1,5 +1,34 @@
-https://leetcode.com/problems/intersection-of-two-linked-lists/
-Не оптимальное решение
+# Лучшее решение
+
+https://leetcode.com/problems/intersection-of-two-linked-lists/submissions/1119855407/
+```python
+class Solution:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:
+        p1 = headA
+        p2 = headB
+
+        while p1 != p2:
+            p1 = p1.next if p1 else headB
+            p2 = p2.next if p2 else headA
+        
+        return p1
+```
+
+Оценка по скорости O(n + m), где n первый список, а m второй список.
+
+Оценка по памяти O(1), память новых объектов постоянна, 
+не зависит от длины списка.
+
+Решение:
+Двигаем указатели по двум спискам, когда указатель дойдет до конца списка, 
+надо поставить его на начало другого списка. Если списки пересекаются, 
+уже после перехода обоих указателей на голову другого списка, потом они встретятся на узле, 
+в котором пересекаются списки.
+
+
+# Не оптимальное решение
+
+https://leetcode.com/problems/intersection-of-two-linked-lists/submissions/983087950/
 ```python
 class Solution:
     def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:
