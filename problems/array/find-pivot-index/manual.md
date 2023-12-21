@@ -2,12 +2,11 @@ https://leetcode.com/problems/find-pivot-index/
 
 ```python
 from itertools import chain, accumulate
-from functools import reduce
 
 class Solution:
     def pivotIndex(self, nums: List[int]) -> int:
-        full_summ = reduce(lambda x, y: x+y, nums)
         accumulate_sum_list = list(accumulate(chain([0], nums)))
+        full_summ = accumulate_sum_list[-1]
 
         pointer = 0
         end = len(nums) - 1
