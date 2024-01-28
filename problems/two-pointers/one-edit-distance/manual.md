@@ -25,26 +25,61 @@
 - если массивы по длине не равны, значит, мы можем сдвинуть указатель вперед, имитируя удаление или вставку символа
  - когда равны, имитируем замену, необходимо сдвинуть оба указателя. Потому что после замены, они будут равны
 
+## Нюансы
+- Обработать вариант, когда массивы уже равны
+- Обработать вариант, когда длина массивов отличается больше, чем на один. Это означает, что нужно сделать больше, чем 1 операцию
+- Обработать вариант, когда одна из строки пуста, а в другой 1 символ
+
 ## Решение
 ```python
-def check(s: str, t: str) -> bool:  
-    ps, pt = 0, 0  
-    count = 1  
-    is_equal_count = len(s) == len(t)  
-  
-    while ps < len(s) and pt < len(t):  
-        if s[ps] == t[pt]:  
-            ps += 1  
-            pt += 1  
-        elif count:  
-            ps += 1  
-            count -= 1  
-            if is_equal_count:  
-                pt += 1  
-        else:  
+class Solutions:  
+    def isOneEditDistance(self, s: str, t: str) -> bool:  
+        if t == s:  
+            return False  
+        if t == '' or s == '':  
+            return max(len(s), len(t)) == 1  
+        if abs(len(s) - len(t)) > 1:  
             return False  
   
-    return True
+        ps, pt = 0, 0  
+        count = 1  
+  
+        while ps < len(s) and pt < len(t):  
+            if s[ps] == t[pt]:  
+                ps += 1  
+                pt += 1  
+            elif count:  
+                count -= 1  
+  
+                if len(s) == len(t):  
+                    # Имитация замены.  
+                    ps += 1  
+                    pt += 1  
+                elif len(s) < len(t):  
+                    # Имитация добавления слева или удаления справа.  
+                    pt += 1  
+                else:  
+                    # Имитация удаления слева или добавления справа.  
+                    ps += 1  
+            else:  
+                return False  
+  
+        return True  
+  
+# проверка удаления в центре справа или добавления слева  
+assert s.isOneEditDistance("ab", "acb")  
+# проверка удаления в центре слева или добавления справа  
+assert s.isOneEditDistance("aсb", "ab")  
+# проверка удаления в начале справа или добавления слева  
+assert s.isOneEditDistance("ab", "cab")  
+# проверка удаления в начале слева или добавления справа  
+assert s.isOneEditDistance("cab", "ab")  
+# проверка замены в центре  
+assert s.isOneEditDistance("a_с", "abс")  
+# проверка замены слева  
+assert s.isOneEditDistance("_bс", "abс")  
+# проверка замены справа  
+assert s.isOneEditDistance("ab_", "abс")
 ```
 Оценка по памяти `O(1)`
 
